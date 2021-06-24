@@ -1,0 +1,34 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnect
+metadata:
+  name: debezium-cdc-cluster
+  annotations:
+#  # use-connector-resources configures this KafkaConnect
+#  # to use KafkaConnector resources to avoid
+#  # needing to call the Connect REST API directly
+    strimzi.io/use-connector-resources: "true"
+spec:
+  image: <your-acr-name>.azurecr.io/debezium/mysql-plugin:latest
+  replicas: 1
+  bootstrapServers: kafka-cdc-cluster-kafka-bootstrap:9093
+  tls:
+    trustedCertificates:
+      - secretName: kafka-cdc-cluster-cluster-ca-cert
+        certificate: ca.crt
+  config:
+    group.id: debezium-cdc-cluster
+    offset.storage.topic: debezium-cdc-cluster-offsets
+    config.storage.topic: debezium-cdc-cluster-configs
+    status.storage.topic: debezium-cdc-cluster-status
+    # -1 means it will use the default replication factor configured in the broker
+    config.storage.replication.factor: -1
+    offset.storage.replication.factor: -1
+    status.storage.replication.factor: -1  
+    config.providers: file
+    config.providers.file.class: org.apache.kafka.common.config.provider.FileConfigProvider
+  externalConfiguration:
+    volumes:
+      - name: connector-config
+        secret:
+          secretName: mysql-credentials
+          

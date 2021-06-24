@@ -1,0 +1,47 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaMirrorMaker2
+metadata:
+  name: kafka2eventhub-mirror-cluster
+spec:
+  version: 2.8.0
+  replicas: 1
+  connectCluster: "azure-eventhub"
+  clusters:
+  - alias: "local-kafka-cluster"
+    bootstrapServers: kafka-cdc-cluster-kafka-bootstrap:9093
+    tls:
+      trustedCertificates:
+        - secretName: kafka-cdc-cluster-cluster-ca-cert
+          certificate: ca.crt
+  - alias: "azure-eventhub"
+    bootstrapServers: <your-azure-eventhub-name>.servicebus.windows.net:9093
+    config:
+      config.storage.replication.factor: 1
+      offset.storage.replication.factor: 1
+      status.storage.replication.factor: 1
+      producer.connections.max.idle.ms: 180000
+      producer.metadata.max.age.ms: 180000
+    authentication:
+      type: plain
+      username: $ConnectionString
+      passwordSecret:
+        secretName: eventhubssecret
+        password: eh-connection-string
+    tls:
+      trustedCertificates: []
+  mirrors:
+  - sourceCluster: "local-kafka-cluster"
+    targetCluster: "azure-eventhub"
+    sourceConnector:
+      config:
+        replication.factor: 1
+        offset-syncs.topic.replication.factor: 1
+        sync.topic.acls.enabled: "false"
+    heartbeatConnector:
+      config:
+        heartbeats.topic.replication.factor: 1
+    checkpointConnector:
+      config:
+        checkpoints.topic.replication.factor: 1
+    topicsPattern: "<your-mysql-server-name>.*"
+    groupsPattern: ".*"
