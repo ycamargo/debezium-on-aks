@@ -69,7 +69,7 @@ curl https://repo1.maven.org/maven2/io/debezium/debezium-connector-mysql/1.5.2.F
 tar -xvzf .\debezium-connector-mysql-1.5.2.Final-plugin.tar.gz
 del *.tar.gz
 ```
-  * create a `Dockerfile` with the following lines:
+  * create a `Dockerfile` with the following lines (or use the provided one):
 ```
 FROM quay.io/strimzi/kafka:latest-kafka-2.8.0
 USER root:root
@@ -88,31 +88,31 @@ docker push <your-acr-name>.azurecr.io/debezium/mysql-plugin
 ```
 az aks update -n <your-aks-cluster-name> -g <your-aks-resource-group> --attach-acr <your-acr-name>
 ```
-13. Edit `mysql-secret.properties` to include your MySQL credentials and create a Secret from it on AKS:
+13. Edit the provided `mysql-secret.properties` to include your MySQL credentials and create a Secret from it on AKS:
 ```
 kubectl -n debezium create secret generic mysql-credentials --from-file=mysql-secret.properties
 ```
 14. Deploy the Kafka Connect cluster with your custom image including Debezium and MySQL plugins:
-  * edit `kafka-connect.yaml` replacing `<your-acr-name>` with the name you gave to your Azure Container Registry
+  * edit the provided `kafka-connect.yaml` replacing `<your-acr-name>` with the name you gave to your Azure Container Registry
   * then apply it to AKS:
 ```
 kubectl apply -f kafka-connect.yaml -n debezium
 ```
 15. Configure the Debezium/MySQL connector to start capturing data changes on MySQL database
-  * edit `debezium-mysql-connector.yaml` replacing `<your-mysql-server-name>` with the name you gave to your Azure Database for MySQL server
+  * edit the provided `debezium-mysql-connector.yaml` replacing `<your-mysql-server-name>` with the name you gave to your Azure Database for MySQL server
   * then apply it to AKS:
 ```
 kubectl apply -f debezium-mysql-connector.yaml -n debezium
 ```
-16. Edit `eventhubs-secret.yaml` to include your Azure Event Hub connection string and create a Secret from it on AKS:
+16. Edit the provided `eventhubs-secret.yaml` to include your Azure Event Hub connection string and create a Secret from it on AKS:
   * replace `<your-azure-eventhub-connection-string>` with your Azure Event Hub connection string
   * then apply it to AKS:
 ```
 kubectl apply -f eventhubs-secret.yaml -n debezium
 ```
 17. Deploy Kafka Mirrormaker2
-  * edit `mirrormaker2-to-aeh.yaml` replacing `<your-azure-eventhub-name>` with the name you gave to your Azure Event Hub
-  * edit `mirrormaker2-to-aeh.yaml` replacing `<your-mysql-server-name>` with the name you gave to your Azure Database for MySQL server
+  * edit the provided `mirrormaker2-to-aeh.yaml` replacing `<your-azure-eventhub-name>` with the name you gave to your Azure Event Hub
+  * edit the provided `mirrormaker2-to-aeh.yaml` replacing `<your-mysql-server-name>` with the name you gave to your Azure Database for MySQL server
   * then apply it to AKS:
 ```
 kubectl apply -f mirrormaker2-to-aeh.yaml -n debezium
