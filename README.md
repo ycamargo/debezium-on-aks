@@ -128,39 +128,39 @@
 # Some useful commands:
 
 ### scale up and down the KafkaConnector cluster
-	```pwsh
-	kubectl scale deployment debezium-cdc-cluster-connect --replicas=0 -n debezium
-	kubectl scale deployment debezium-cdc-cluster-connect --replicas=1 -n debezium
-	```
+```pwsh
+kubectl scale deployment debezium-cdc-cluster-connect --replicas=0 -n debezium
+kubectl scale deployment debezium-cdc-cluster-connect --replicas=1 -n debezium
+```
 
 ### restart the KafkaMirrorMaker2 cluster
-	```pwsh
-	kubectl annotate KafkaMirrorMaker2 kafka2eventhub-mirror-cluster "strimzi.io/restart-connector-task=local-kafka-cluster->azure-eventhub.MirrorSourceConnector:0" -n debezium
-	```
+```pwsh
+kubectl annotate KafkaMirrorMaker2 kafka2eventhub-mirror-cluster "strimzi.io/restart-connector-task=local-kafka-cluster->azure-eventhub.MirrorSourceConnector:0" -n debezium
+```
 
 ### send/consume messages to/from Kafka cluster
-	```pwsh
-	kubectl exec -n debezium -i kafka-cdc-cluster-kafka-0 -- bin/kafka-console-producer.sh --broker-list kafka-cdc-cluster-kafka-bootstrap:9092 --topic strimzi-test-topic
-	kubectl exec -n debezium -i kafka-cdc-cluster-kafka-0 -- bin/kafka-console-consumer.sh --bootstrap-server kafka-cdc-cluster-kafka-bootstrap:9092 --topic strimzi-test-topic --from-beginning
-	```
+```pwsh
+kubectl exec -n debezium -i kafka-cdc-cluster-kafka-0 -- bin/kafka-console-producer.sh --broker-list kafka-cdc-cluster-kafka-bootstrap:9092 --topic strimzi-test-topic
+kubectl exec -n debezium -i kafka-cdc-cluster-kafka-0 -- bin/kafka-console-consumer.sh --bootstrap-server kafka-cdc-cluster-kafka-bootstrap:9092 --topic strimzi-test-topic --from-beginning
+```
 
 ### view all topics on Kafka cluster
-	```pwsh
-	kubectl exec -n debezium -i kafka-cdc-cluster-kafka-0 -- bin/kafka-topics.sh --list --bootstrap-server kafka-cdc-cluster-kafka-bootstrap:9092
-	```
+```pwsh
+kubectl exec -n debezium -i kafka-cdc-cluster-kafka-0 -- bin/kafka-topics.sh --list --bootstrap-server kafka-cdc-cluster-kafka-bootstrap:9092
+```
 
 ### KafkaConnector deployment status check
-	```pwsh
-	kubectl get kctr pedidos-cdc-connector -o yaml -n debezium
-	```
+```pwsh
+kubectl get kctr pedidos-cdc-connector -o yaml -n debezium
+```
 
 ### view all connectors
-	```pwsh
-	kubectl exec -n debezium -i kafka-cdc-cluster-kafka-0 -- curl -X GET http://debezium-cdc-cluster-connect-api:8083/connectors
-	```
+```pwsh
+kubectl exec -n debezium -i kafka-cdc-cluster-kafka-0 -- curl -X GET http://debezium-cdc-cluster-connect-api:8083/connectors
+```
 
 ### consume cdc events for tables pedido & item_pedido
-	```pwsh
-	kubectl exec -n debezium -i kafka-cdc-cluster-kafka-0 -- bin/kafka-console-consumer.sh --bootstrap-server kafka-cdc-cluster-kafka-bootstrap:9092 --topic tdc-connections-2021-db.tdc_connections_2021_cdc.pedido --from-beginning
-	kubectl exec -n debezium -i kafka-cdc-cluster-kafka-0 -- bin/kafka-console-consumer.sh --bootstrap-server kafka-cdc-cluster-kafka-bootstrap:9092 --topic tdc-connections-2021-db.tdc_connections_2021_cdc.item_pedido --from-beginning
-	```
+```pwsh
+kubectl exec -n debezium -i kafka-cdc-cluster-kafka-0 -- bin/kafka-console-consumer.sh --bootstrap-server kafka-cdc-cluster-kafka-bootstrap:9092 --topic tdc-connections-2021-db.tdc_connections_2021_cdc.pedido --from-beginning
+kubectl exec -n debezium -i kafka-cdc-cluster-kafka-0 -- bin/kafka-console-consumer.sh --bootstrap-server kafka-cdc-cluster-kafka-bootstrap:9092 --topic tdc-connections-2021-db.tdc_connections_2021_cdc.item_pedido --from-beginning
+```
