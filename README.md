@@ -1,13 +1,14 @@
 # Tutorial - CDC with Debezium and Azure Event Hub
 ## Demo presented at TDC Connections 2021 about Event Driven Architectures and CDC using Debezium and Azure Event Hub
 
-1. Pre-reqs => For running this demo you will need to deploy on Azure:
-	* One AKS (Azure Kubernetes Service) cluster
-	* One ACR (Azure Container Registry)
-	* One Azure Database for MySQL (some specific configurations and privileges for running CDC are needed - look at https://debezium.io/documentation/reference/connectors/mysql.html#setting-up-mysql)
-	   * after deploy the server, you can use the provided SQL script (`tdc-connections-2021-db.sql`) to create the simple schema used on this demo 
-	* One Azure Event Hub
-	* Clone this repo
+1. Pre-reqs => For running this demo you will need to:
+ 	* to deploy on Azure:
+		* One AKS (Azure Kubernetes Service) cluster
+		* One ACR (Azure Container Registry)
+		* One Azure Database for MySQL (some specific configurations and privileges for running CDC are needed - look at https://debezium.io/documentation/reference/connectors/mysql.html#setting-up-mysql)
+	   		* after deploy the server, you can use the provided SQL script (`tdc-connections-2021-db.sql`) to create the simple schema used on this demo 
+		* One Azure Event Hub
+	* clone/download this repo on your machine
 
 2. Download and unzip the `strimzi-0.23.0.zip` file from GitHub (https://github.com/strimzi/strimzi-kafka-operator/releases)
 
