@@ -1,10 +1,28 @@
-# Tutorial - CDC with Debezium and Azure Event Hub
-## Demo presented at TDC Connections 2021 about Event Driven Architectures and CDC using Debezium and Azure Event Hub
+Work in progresss - this tutorial is being updated
+
+# Tutorial - CDC with Debezium running on AKS and sending events to Azure Event Hub
+## Demo presented at TDC Connections 2021, MVPConf2021 and TDC Future 2021 about Event Driven Architectures and CDC and how to deploy Debezium on AKS and connect it to Azure Event Hub
 
 1. Pre-reqs => For running this demo you will need to:
- 	* to deploy on Azure:
-		* One AKS (Azure Kubernetes Service) cluster
-		* One ACR (Azure Container Registry)
+ 	* An Azure Subscription where you have administrative permissions
+ 	* A Cloud Shell configured to use Bash on that subscription
+
+2. Start creating the infrastructure you will need:
+	* Use the Bash environment on [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/quickstart).
+[![Opens Azure Cloud Shell in new window](https://docs.microsoft.com/en-us/azure/includes/media/cloud-shell-try-it/hdi-launch-cloud-shell.png)](https://shell.azure.com/)
+	* Select your Subscription, if you have more than one: `az account set --subscription '<your-subscription-name-or-id>'`
+	* Create the resource group: `az group create --location eastus --resource-group demodebezium-rg`
+	* Create the AKS (Azure Kubernetes Service) cluster: `az aks create --resource-group demodebezium-rg --name demodbzakscluster --node-count 2 --enable-addons monitoring --generate-ssh-keys`
+	* Create the Azure Database for MySQL: `az mysql server create --resource-group demodebezium-rg --name demodbzmysql --location eastus --admin-user debezium --admin-password P@ssw0rd2021 --sku-name B_Gen5_1 --storage-size 5120 --version 8.0`
+	* Create the ACR (Azure Container Registry): `az acr create --resource-group demodebezium-rg --name demodbzacr --sku Basic`
+	* Create the Azure Event Hub namespace: `az eventhubs namespace create --name demodebezium-ns --resource-group demodebezium-rg -l eastus`
+
+3. Configure some basic things on your infrastructure:
+	* Connect to your recently created MySQL (using [MySQL Workbench](https://dev.mysql.com/downloads/workbench/) or any other client tool of your preference), and:
+		- 
+	* On your newly created MySQL, called **demodbzmysql, go to "Server Properties", and:
+		- set `binlog_row_image` to `FULL`
+		- set `binlog_expire_logs_seconds` to `7200`
 		* One Azure Database for MySQL (some specific configurations and privileges for running CDC are needed - look at https://debezium.io/documentation/reference/connectors/mysql.html#setting-up-mysql)
 	   		* after deploy the server, you can use the provided SQL script (`tdc-connections-2021-db.sql`) to create the simple schema used on this demo 
 		* One Azure Event Hub
