@@ -8,18 +8,24 @@ Work in progresss - this tutorial is being updated
  	* A Cloud Shell configured to use Bash on that subscription
 
 2. Start creating the infrastructure you will need:
-	* Use the Bash environment on [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/quickstart).
-[![Opens Azure Cloud Shell in new window](https://docs.microsoft.com/en-us/azure/includes/media/cloud-shell-try-it/hdi-launch-cloud-shell.png)](https://shell.azure.com/)
-	* Select your Subscription, if you have more than one: `az account set --subscription '<your-subscription-name-or-id>'`
-	* Create the resource group: `az group create --location eastus --resource-group demodebezium-rg`
-	* Create the AKS (Azure Kubernetes Service) cluster: `az aks create --resource-group demodebezium-rg --name demodbzakscluster --node-count 2 --enable-addons monitoring --generate-ssh-keys`
-	* Create the Azure Database for MySQL: `az mysql server create --resource-group demodebezium-rg --name demodbzmysql --location eastus --admin-user debezium --admin-password P@ssw0rd2021 --sku-name B_Gen5_1 --storage-size 5120 --version 8.0`
-	* Create the ACR (Azure Container Registry): `az acr create --resource-group demodebezium-rg --name demodbzacr --sku Basic`
-	* Create the Azure Event Hub namespace: `az eventhubs namespace create --name demodebezium-ns --resource-group demodebezium-rg -l eastus`
+	* Use the Bash environment on [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/quickstart). 
+	[![Opens Azure Cloud Shell in new window](https://docs.microsoft.com/en-us/azure/includes/media/cloud-shell-try-it/hdi-launch-cloud-shell.png)](https://shell.azure.com/)
+	* Select your Subscription, if you have more than one: 
+	`az account set --subscription '<your-subscription-name-or-id>'`
+	* Create the resource group: 
+	`az group create --location eastus --resource-group demodebezium-rg`
+	* Create the AKS (Azure Kubernetes Service) cluster: 
+	`az aks create --resource-group demodebezium-rg --name demodbzakscluster --node-count 2 --enable-addons monitoring --generate-ssh-keys`
+	* Create the Azure Database for MySQL: 
+	`az mysql server create --resource-group demodebezium-rg --name demodbzmysql --location eastus --admin-user debezium --admin-password P@ssw0rd2021 --sku-name B_Gen5_1 --storage-size 5120 --version 8.0`
+	* Create the ACR (Azure Container Registry): 
+	`az acr create --resource-group demodebezium-rg --name demodbzacr --sku Basic`
+	* Create the Azure Event Hub namespace: 
+	`az eventhubs namespace create --name demodebezium-ns --resource-group demodebezium-rg -l eastus`
 
 3. Configure some basic things on your infrastructure:
 	* Connect to your recently created MySQL (using [MySQL Workbench](https://dev.mysql.com/downloads/workbench/) or any other client tool of your preference), and:
-		- 
+		- blabla
 	* On your newly created MySQL, called **demodbzmysql, go to "Server Properties", and:
 		- set `binlog_row_image` to `FULL`
 		- set `binlog_expire_logs_seconds` to `7200`
