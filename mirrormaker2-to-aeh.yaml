@@ -8,13 +8,13 @@ spec:
   connectCluster: "azure-eventhub"
   clusters:
   - alias: "local-kafka-cluster"
-    bootstrapServers: kafka-cdc-cluster-kafka-bootstrap:9093
+    bootstrapServers: cdc-cluster-kafka-bootstrap:9093
     tls:
       trustedCertificates:
-        - secretName: kafka-cdc-cluster-cluster-ca-cert
+        - secretName: cdc-cluster-cluster-ca-cert
           certificate: ca.crt
   - alias: "azure-eventhub"
-    bootstrapServers: <your-azure-eventhub-name>.servicebus.windows.net:9093
+    bootstrapServers: demodebezium-ns.servicebus.windows.net:9093
     config:
       config.storage.replication.factor: 1
       offset.storage.replication.factor: 1
@@ -43,5 +43,5 @@ spec:
     checkpointConnector:
       config:
         checkpoints.topic.replication.factor: 1
-    topicsPattern: "<your-mysql-server-name>.*"
+    topicsPattern: "demodbzmysql.*"
     groupsPattern: ".*"
