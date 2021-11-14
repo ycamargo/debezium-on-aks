@@ -24,6 +24,15 @@
 		az acr create --resource-group demodebezium-rg --name demodbzacr --sku Basic
 		az eventhubs namespace create --name demodebezium-ns --resource-group demodebezium-rg -l eastus
 		```
+		
+		- **_You will probably need to change the names used here for the MySQL server, the ACR repository and the Event Hub namespace because those names need to be unique. If you do that, you will need to remember to change those names on subsequent commands and, also, inside the provided files. Following is a list of files and the references they have inside:_** 
+
+			| Provided File | References inside |
+			|---|---|
+			| [debezium-mysql-connector.yaml](./debezium-mysql-connector.yaml) | MySQL server |
+			| [kafka-connect.yaml](./kafka-connect.yaml) | ACR repository |
+			| [mirrormaker2-to-aeh.yaml](./mirrormaker2-to-aeh.yaml) | Azure Event Hub namespace, MySQL server |
+			| [mysql-secret.properties](./mysql-secret.properties) | MySQL server |
 
 3. Configure some basic things on your MySQL database:
 	* Connect to your recently created MySQL (using [MySQL Workbench](https://dev.mysql.com/downloads/workbench/) or any other client tool of your preference), and:
@@ -36,12 +45,12 @@
 	* On [Azure Portal](https://portal.azure.com/), go to your newly created MySQL server, called `demodbzmysql`, select "Server Properties" on left menu, and:
 		- set `binlog_row_image` to `FULL`
 		- set `binlog_expire_logs_seconds` to `7200`
-		- set `time_zone` to `<your-time-zone>`
-			- mine is America/Sao_Paulo, you can find the available time zones by querying the database:
+		- set `time_zone` to ***<your-time-zone>***
+			- mine is `America/Sao_Paulo`, you can find the available time zones by querying the database:
 			```sql
 			SELECT name FROM mysql.time_zone_name;
 			```
-	* You can find more information about MySQL required configurations for use with Debezium, [here](https://debezium.io/documentation/reference/connectors/mysql.html#setting-up-mysql).
+	* You can find more information about MySQL required configurations, [here, on Debezium documentation](https://debezium.io/documentation/reference/connectors/mysql.html#setting-up-mysql).
 
 	* After deploying and configuring the MySQL server, you can use the provided SQL script [demo_debezium_cdc_db.sql](./demo_debezium_cdc_db.sql) to create the simple schema used on this demo. Just open this script on MySQL Workbench and run it.
 
@@ -62,13 +71,12 @@
 6. Connect to AKS and prepare to install Strimzi:
 	```bash
 	az aks get-credentials --resource-group demodebezium-rg --name demodbzakscluster
-	
 	kubectl create ns strimzi
 	kubectl create ns debezium
 	```
 
 7. Change Strimzi installation files to use your created namespaces:
-	* change all files named as `strimzi-0.26.0/install/cluster-operator/\*RoleBinding\*.yaml` replacing `"namespace: myProject"` with `"namespace: strimzi"`
+	* change all files named as `strimzi-0.26.0/install/cluster-operator/\*RoleBinding\*.yaml` replacing `namespace: myProject` with `namespace: strimzi`
 	* edit `strimzi-0.26.0/install/cluster-operator/060-Deployment-strimzi-cluster-operator.yaml` file to change the `STRIMZI_NAMESPACE` environment variable setting:
 	```yaml
 	# ...
@@ -78,7 +86,7 @@
 	# ...
 	```
 
-8. Deploy Strimzi to your AKS cluster and, then, give it permissions to operate on `debezium` namespace
+8. Deploy Strimzi to your AKS cluster and, then, give it permissions to operate on debezium namespace
 	```bash
 	kubectl create -f install/cluster-operator/ -n strimzi
 	kubectl create -f install/cluster-operator/020-RoleBinding-strimzi-cluster-operator.yaml -n debezium
