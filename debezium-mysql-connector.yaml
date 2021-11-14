@@ -1,9 +1,9 @@
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaConnector
 metadata:
-  name: orders-cdc-connector
+  name: demo-cdc-connector
   labels:
-    strimzi.io/cluster: debezium-cdc-cluster
+    strimzi.io/cluster: debezium-cluster
 spec:
   class: io.debezium.connector.mysql.MySqlConnector
   tasksMax: 1
