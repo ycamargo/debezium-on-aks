@@ -1,5 +1,5 @@
 # Tutorial - CDC with Debezium running on AKS and sending events to Azure Event Hub
-## This was created as a demo to present at TDC Connections 2021, MVPConf2021 and TDC Future 2021 conferences, on sessions which I spoke about Event Driven Architectures and CDC and showed how to deploy Debezium on AKS, configure it to capture changes from a MySQL database and send those events to Azure Event Hub
+### This was created as a demo to present at TDC Connections 2021, MVPConf2021 and TDC Future 2021 conferences, on sessions which I spoke about Event Driven Architectures and CDC and showed how to deploy Debezium on AKS, configure it to capture changes from a MySQL database and send those events to Azure Event Hub
 
 1. Pre-reqs => For running this demo you will need to:
  	* An Azure Subscription where you have administrative permissions
