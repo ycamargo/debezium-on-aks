@@ -197,7 +197,7 @@ kubectl get kctr orders-cdc-connector -o yaml -n debezium
 
 ### view all connectors
 ```bash
-kubectl exec -n debezium -i cdc-cluster-kafka-0 -- curl -X GET http://debezium-cdc-cluster-connect-api:8083/connectors
+kubectl exec -n debezium -i cdc-cluster-kafka-0 -- curl -X GET http://debezium-cluster-connect-api:8083/connectors
 ```
 
 ### consume cdc events for tables ORDER & ORDER_ITEM
