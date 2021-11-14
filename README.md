@@ -54,14 +54,14 @@
 
 	* After deploying and configuring the MySQL server, you can use the provided SQL script [demo_debezium_cdc_db.sql](./demo_debezium_cdc_db.sql) to create the simple schema used on this demo. Just open this script on MySQL Workbench and run it.
 
-4. Download from GitHub and unzip the latest version of Strimzi:
+4. Download from GitHub and unzip the latest version of [Strimzi](https://strimzi.io/):
 	```bash
 	curl -L https://github.com/strimzi/strimzi-kafka-operator/releases/download/0.26.0/strimzi-0.26.0.tar.gz --output strimzi-0.26.0.tar.gz
 	tar -xvzf strimzi-0.26.0.tar.gz
 	rm strimzi-0.26.0.tar.gz
 	```
 
-5. Download from Maven and unzip the latest version of Debezium Kafka Connector for MySQL:
+5. Download from Maven and unzip the latest version of [Debezium Kafka Connector for MySQL](https://debezium.io/documentation/reference/1.7/connectors/mysql.html):
 	```bash
 	curl https://repo1.maven.org/maven2/io/debezium/debezium-connector-mysql/1.7.1.Final/debezium-connector-mysql-1.7.1.Final-plugin.tar.gz --output debezium-connector-mysql-1.7.1.Final-plugin.tar.gz
 	tar -xvzf debezium-connector-mysql-1.7.1.Final-plugin.tar.gz
