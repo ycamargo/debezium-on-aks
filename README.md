@@ -90,7 +90,6 @@
 	```bash
 	kubectl create -f install/cluster-operator/ -n strimzi
 	kubectl create -f install/cluster-operator/020-RoleBinding-strimzi-cluster-operator.yaml -n debezium
-	kubectl create -f install/cluster-operator/032-RoleBinding-strimzi-cluster-operator-topic-operator-delegation.yaml -n debezium
 	kubectl create -f install/cluster-operator/031-RoleBinding-strimzi-cluster-operator-entity-operator-delegation.yaml -n debezium
 	```
 
@@ -113,8 +112,8 @@
 	
 10. Use Kafka shell utilities to produce and consume messages to check if your Kafka cluster is running well:
 	```bash
-	kubectl exec -n debezium -i kafka-cdc-cluster-kafka-0 -- bin/kafka-console-producer.sh --broker-list kafka-cdc-cluster-kafka-bootstrap:9092 --topic my-test-topic
-	kubectl exec -n debezium -i kafka-cdc-cluster-kafka-0 -- bin/kafka-console-consumer.sh --bootstrap-server kafka-cdc-cluster-kafka-bootstrap:9092 --topic my-test-topic --from-beginning
+	kubectl exec -n debezium -i cdc-cluster-kafka-0 -- bin/kafka-console-producer.sh --broker-list cdc-cluster-kafka-bootstrap:9092 --topic my-test-topic
+	kubectl exec -n debezium -i cdc-cluster-kafka-0 -- bin/kafka-console-consumer.sh --bootstrap-server cdc-cluster-kafka-bootstrap:9092 --topic my-test-topic --from-beginning
 	```
 
 11. Prepare to create a Kafka Connect docker image with Debezium and MySQL plugins:
