@@ -7,7 +7,7 @@ spec:
   replicas: 1
   connectCluster: "azure-eventhub"
   clusters:
-  - alias: "local-kafka-cluster"
+  - alias: "kafka-cluster"
     bootstrapServers: cdc-cluster-kafka-bootstrap:9093
     tls:
       trustedCertificates:
@@ -30,7 +30,7 @@ spec:
     tls:
       trustedCertificates: []
   mirrors:
-  - sourceCluster: "local-kafka-cluster"
+  - sourceCluster: "kafka-cluster"
     targetCluster: "azure-eventhub"
     sourceConnector:
       config:
