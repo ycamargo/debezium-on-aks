@@ -169,13 +169,13 @@
 
 ### scale up and down the KafkaConnector cluster - a way to restart it
 ```bash
-kubectl scale deployment cdc-cluster-connect --replicas=0 -n debezium
-kubectl scale deployment cdc-cluster-connect --replicas=1 -n debezium
+kubectl scale deployment debezium-cluster-connect --replicas=0 -n debezium
+kubectl scale deployment debezium-cluster-connect --replicas=1 -n debezium
 ```
 
 ### restart the KafkaMirrorMaker2 cluster
 ```bash
-kubectl annotate KafkaMirrorMaker2 kafka2eventhub-mirror-cluster "strimzi.io/restart-connector-task=local-kafka-cluster->azure-eventhub.MirrorSourceConnector:0" -n debezium
+kubectl annotate KafkaMirrorMaker2 kafka2eventhub-mirror-cluster "strimzi.io/restart-connector-task=kafka-cluster->azure-eventhub.MirrorSourceConnector:0" -n debezium
 ```
 
 ### send/consume messages to/from Kafka cluster
@@ -191,7 +191,7 @@ kubectl exec -n debezium -i cdc-cluster-kafka-0 -- bin/kafka-topics.sh --list --
 
 ### KafkaConnector deployment status check
 ```bash
-kubectl get kctr orders-cdc-connector -o yaml -n debezium
+kubectl get kctr demo-cdc-connector -o yaml -n debezium
 ```
 
 ### view all connectors
