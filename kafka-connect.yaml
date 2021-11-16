@@ -16,7 +16,7 @@ spec:
       - secretName: cdc-cluster-cluster-ca-cert
         certificate: ca.crt
   config:
-    group.id: debezium-cdc-cluster
+    group.id: debezium-cluster
     offset.storage.topic: debezium-cdc-cluster-offsets
     config.storage.topic: debezium-cdc-cluster-configs
     status.storage.topic: debezium-cdc-cluster-status
