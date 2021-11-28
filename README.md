@@ -20,7 +20,7 @@
 	 	- An Azure Event Hub namespace
 		```bash
 		az aks create --resource-group demodebezium-rg --name demodbzakscluster --node-count 2 --enable-addons monitoring --generate-ssh-keys
-		az mysql server create --resource-group demodebezium-rg --name demodbzmysql --location eastus --admin-user debezium --admin-password P@ssw0rd2021 --sku-name B_Gen5_1 --storage-size 5120 --version 8.0
+		az mysql server create --resource-group demodebezium-rg --name demodbzmysql --location eastus --admin-user debezium --admin-password P@ssw0rd2021 --sku-name B_Gen5_1 --storage-size 5120 --version 5.7
 		az acr create --resource-group demodebezium-rg --name demodbzacr --sku Basic
 		az eventhubs namespace create --name demodebezium-ns --resource-group demodebezium-rg -l eastus
 		```
