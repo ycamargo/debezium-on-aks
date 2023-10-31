@@ -10,25 +10,29 @@ metadata:
 spec:
   image: demodbzacr.azurecr.io/debezium/mysql-plugin:latest
   replicas: 1
-  bootstrapServers: cdc-cluster-kafka-bootstrap:9093
+  authentication:
+    type: plain
+    username: $ConnectionString
+    passwordSecret:
+      secretName: demodebezium-secrets
+      password: eh-connection-string
+  bootstrapServers: demodebezium-ns.servicebus.windows.net:9093
   tls:
-    trustedCertificates:
-      - secretName: cdc-cluster-cluster-ca-cert
-        certificate: ca.crt
+    trustedCertificates: []
   config:
     group.id: debezium-cluster
-    offset.storage.topic: debezium-cdc-cluster-offsets
-    config.storage.topic: debezium-cdc-cluster-configs
-    status.storage.topic: debezium-cdc-cluster-status
-    # -1 means it will use the default replication factor configured in the broker
-    config.storage.replication.factor: -1
-    offset.storage.replication.factor: -1
-    status.storage.replication.factor: -1  
-    config.providers: file
-    config.providers.file.class: org.apache.kafka.common.config.provider.FileConfigProvider
-  externalConfiguration:
-    volumes:
-      - name: connector-config
-        secret:
-          secretName: mysql-credentials
-          
+    security.protocol: SASL_SSL
+    offset.storage.topic: debezium-cluster-offsets
+    config.storage.topic: debezium-cluster-configs
+    status.storage.topic: debezium-cluster-status
+    config.storage.replication.factor: 1
+    offset.storage.replication.factor: 1
+    status.storage.replication.factor: 1  
+    key.converter: org.apache.kafka.connect.json.JsonConverter
+    value.converter: org.apache.kafka.connect.json.JsonConverter
+    internal.key.converter: org.apache.kafka.connect.json.JsonConverter
+    internal.value.converter: org.apache.kafka.connect.json.JsonConverter
+    internal.key.converter.schemas.enable: false
+    internal.value.converter.schemas.enable: false
+    config.providers: secrets
+    config.providers.secrets.class: io.strimzi.kafka.KubernetesSecretConfigProvider

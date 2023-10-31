@@ -10,12 +10,20 @@ spec:
   config:
     database.hostname: demodbzmysql.mysql.database.azure.com
     database.port: 3306
-    database.user: ${file:/opt/kafka/external-configuration/connector-config/mysql-secret.properties:mysql_username}
-    database.password: ${file:/opt/kafka/external-configuration/connector-config/mysql-secret.properties:mysql_password}
+    database.user: ${secrets:debezium/demodebezium-secrets:mysql-username}
+    database.password: ${secrets:debezium/demodebezium-secrets:mysql-password}
     database.ssl.mode: required
-    database.server.id: 184054
+    database.server.id: 333444555666
     database.server.name: demodbzmysql
     database.include.list: demo_debezium_cdc_db
-    database.history.kafka.bootstrap.servers: cdc-cluster-kafka-bootstrap:9092
-    database.history.kafka.topic: schema-changes.demo_debezium_cdc_db
+    schema.history.internal.kafka.bootstrap.servers: demodebezium-ns.servicebus.windows.net:9093
+    schema.history.internal.kafka.topic: schema-history-internal.demodbz-aks-eh
+    schema.history.internal.producer.security.protocol: SASL_SSL
+    schema.history.internal.producer.sasl.mechanism: PLAIN
+    schema.history.internal.producer.sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="${secrets:debezium/demodebezium-secrets:eh-connection-string}";
+    schema.history.internal.consumer.security.protocol: SASL_SSL
+    schema.history.internal.consumer.sasl.mechanism: PLAIN
+    schema.history.internal.consumer.sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="${secrets:debezium/demodebezium-secrets:eh-connection-string}";
     include.schema.changes: true 
+    snapshot.mode: when_needed
+    topic.prefix: demodbz-aks-eh

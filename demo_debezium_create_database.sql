@@ -22,10 +22,9 @@ USE `demo_debezium_cdc_db` ;
 DROP TABLE IF EXISTS `demo_debezium_cdc_db`.`order` ;
 
 CREATE TABLE IF NOT EXISTS `demo_debezium_cdc_db`.`order` (
-  `order_id` INT(11) NOT NULL,
+  `order_id` INT UNSIGNED NOT NULL,
   `date_received` DATETIME NOT NULL,
   `amount` DECIMAL(10,2) NOT NULL,
-  `items_quantity` INT(11) NOT NULL,
   `status` VARCHAR(1) NOT NULL,
   PRIMARY KEY (`order_id`))
 ENGINE = InnoDB
@@ -38,14 +37,14 @@ DEFAULT CHARACTER SET = latin1;
 DROP TABLE IF EXISTS `demo_debezium_cdc_db`.`order_item` ;
 
 CREATE TABLE IF NOT EXISTS `demo_debezium_cdc_db`.`order_item` (
-  `order_id` INT(11) NOT NULL,
-  `item_id` INT(11) NOT NULL,
+  `item_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `order_id` INT UNSIGNED NOT NULL,
   `product_code` VARCHAR(20) NOT NULL,
   `description` VARCHAR(80) NOT NULL,
-  `quantity` INT(11) NOT NULL,
+  `quantity` INT NOT NULL,
   `price` DECIMAL(10,2) NOT NULL,
   `status` VARCHAR(1) NOT NULL,
-  PRIMARY KEY (`order_id`, `item_id`),
+  PRIMARY KEY (`item_id`),
   CONSTRAINT `fk_order_item`
     FOREIGN KEY (`order_id`)
     REFERENCES `demo_debezium_cdc_db`.`order` (`order_id`))
