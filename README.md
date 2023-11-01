@@ -3,7 +3,7 @@
 ### It was updated on October/2023, to use newer versions of Debezium, Kafka, Strimzi, and new features of Azure Event Hub (like Compaction on topics). Those changes allowed me to simplify the solution removing the Kafka Broker cluster and the Kafka MirrorMaker2, since now it is possible to deploy the Kafka Connect connected to directly to Azure Event Hub.
 
 #### Architecture of this tutorial 
-![Architecture of this tutorial](./demodbz-aks-eh-architecture.drawio.svg)
+![Architecture of this tutorial](./demodbz-aks-eh-architecture.drawio.png)
 
 
 1. Pre-reqs => For running this demo you will need to:
