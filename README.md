@@ -44,8 +44,8 @@
 
 			| Provided File | References inside |
 			|---|---|
-			| [debezium-mysql-connector.yaml](./debezium-mysql-connector.yaml) | MySQL server |
-			| [kafka-connect.yaml](./kafka-connect.yaml) | ACR repository |
+			| [debezium-mysql-connector.yaml](./debezium-mysql-connector.yaml) | MySQL server, Azure Event Hub namespace |
+			| [kafka-connect.yaml](./kafka-connect.yaml) | ACR repository, Azure Event Hub namespace |
 
 3. Configure some basic things on your MySQL database:
 	* Connect to your recently created MySQL (using [MySQL Workbench](https://dev.mysql.com/downloads/workbench/) or any other client tool of your preference), and execute the following commands or use the provided SQL Script file [demo_debezium_grant_privileges.sql](./demo_debezium_grant_privileges.sql):
