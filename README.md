@@ -29,12 +29,15 @@
 		az provider register --namespace Microsoft.EventHub
 		```
 	* Then create:
+                - A Log Analytics Workspace;
 	 	- An AKS (Azure Kubernetes Service) cluster; 
 	 	- An Azure Database for MySQL server;
 	 	- An ACR (Azure Container Registry) repository, and;
 	 	- An Azure Event Hub namespace
 		```bash
-		az aks create --resource-group demodebezium-rg --name demodbzakscluster --node-count 2 --enable-addons monitoring --generate-ssh-keys
+                az monitor log-analytics workspace create --resource-group demodebezium-rg --workspace-name demodebezium-laws
+                lawsId=`az monitor log-analytics workspace show --resource-group demodebezium-rg --workspace-name demodebezium-laws | jq '.id' -r`
+		az aks create --resource-group demodebezium-rg --name demodbzakscluster --node-count 2 --enable-addons monitoring --generate-ssh-keys --workspace-resource-id $lawsId
 		az mysql flexible-server create --resource-group demodebezium-rg --name demodbzmysql --location eastus --admin-user debezium --admin-password P@ssw0rd2023 --sku-name Standard_B1s --storage-size 20 --version 8.0.21
 		az acr create --resource-group demodebezium-rg --name demodbzacr --sku Basic
 		az eventhubs namespace create --name demodebezium-ns --resource-group demodebezium-rg -l eastus
